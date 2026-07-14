@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
+from collections import defaultdict
 import os
 
 # Initialize Flask app
@@ -55,7 +56,7 @@ class Budget(db.Model):
 
 @app.route('/')
 def index():
-    """Dashboard - shows overview of finances"""
+    """Dashboard - shows overview of finances with graphs"""
     # Get summary data
     transactions = Transaction.query.all()
     
@@ -66,11 +67,66 @@ def index():
     # Get recent transactions
     recent = Transaction.query.order_by(Transaction.date.desc()).limit(5).all()
     
+    # Prepare data for graphs
+    expense_by_category = {}
+    income_by_category = {}
+    
+    for t in transactions:
+        if t.type == 'expense':
+            expense_by_category[t.category] = expense_by_category.get(t.category, 0) + t.amount
+        else:
+            income_by_category[t.category] = income_by_category.get(t.category, 0) + t.amount
+    
+    # Get last 30 days of transactions for daily graph
+    thirty_days_ago = datetime.now() - timedelta(days=30)
+    recent_transactions = Transaction.query.filter(Transaction.date >= thirty_days_ago).all()
+    
+    daily_expenses = defaultdict(float)
+    daily_income = defaultdict(float)
+    
+    for t in recent_transactions:
+        date_str = t.date.strftime('%Y-%m-%d')
+        if t.type == 'expense':
+            daily_expenses[date_str] += t.amount
+        else:
+            daily_income[date_str] += t.amount
+    
+    # Sort by date
+    dates = sorted(set(list(daily_expenses.keys()) + list(daily_income.keys())))
+    
+    daily_expense_values = [daily_expenses.get(date, 0) for date in dates]
+    daily_income_values = [daily_income.get(date, 0) for date in dates]
+    
+    # Budget data
+    all_budgets = Budget.query.all()
+    current_month = datetime.now().strftime('%Y-%m')
+    current_month_budgets = [b for b in all_budgets if b.month == current_month]
+    
+    # Calculate budget vs spent
+    budget_data = []
+    for budget in current_month_budgets:
+        spent = sum(t.amount for t in transactions 
+                   if t.type == 'expense' and t.category == budget.category and t.date.strftime('%Y-%m') == current_month)
+        budget_data.append({
+            'category': budget.category,
+            'limit': budget.limit,
+            'spent': spent,
+            'remaining': budget.limit - spent
+        })
+    
     return render_template('index.html',
                           total_income=total_income,
                           total_expenses=total_expenses,
                           balance=balance,
-                          recent_transactions=recent)
+                          recent_transactions=recent,
+                          expense_categories=list(expense_by_category.keys()),
+                          expense_amounts=list(expense_by_category.values()),
+                          income_categories=list(income_by_category.keys()),
+                          income_amounts=list(income_by_category.values()),
+                          dates=dates,
+                          daily_expense_values=daily_expense_values,
+                          daily_income_values=daily_income_values,
+                          budget_data=budget_data)
 
 
 @app.route('/add-transaction', methods=['GET', 'POST'])
@@ -118,7 +174,28 @@ def budgets():
             return f"Error adding budget: {str(e)}", 400
     
     all_budgets = Budget.query.all()
-    return render_template('budgets.html', budgets=all_budgets)
+    
+    # Calculate spent per budget
+    transactions = Transaction.query.all()
+    budget_info = []
+    
+    for budget in all_budgets:
+        spent = sum(t.amount for t in transactions 
+                   if t.type == 'expense' and t.category == budget.category and t.date.strftime('%Y-%m') == budget.month)
+        remaining = budget.limit - spent
+        percentage = (spent / budget.limit * 100) if budget.limit > 0 else 0
+        
+        budget_info.append({
+            'id': budget.id,
+            'category': budget.category,
+            'limit': budget.limit,
+            'month': budget.month,
+            'spent': spent,
+            'remaining': remaining,
+            'percentage': min(percentage, 100)
+        })
+    
+    return render_template('budgets.html', budgets=budget_info)
 
 
 @app.route('/reports')
@@ -134,7 +211,9 @@ def reports():
                 expense_by_category[t.category] = 0
             expense_by_category[t.category] += t.amount
     
-    return render_template('reports.html', expense_data=expense_by_category)
+    return render_template('reports.html', 
+                          expense_categories=list(expense_by_category.keys()),
+                          expense_amounts=list(expense_by_category.values()))
 
 
 @app.route('/api/transactions', methods=['GET'])
