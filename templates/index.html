@@ -2,9 +2,13 @@
 
 {% block title %}Dashboard - Financial Tracker{% endblock %}
 
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="dashboard">
-    <h1>Dashboard</h1>
+    <h1>💰 Financial Dashboard</h1>
     
     <div class="summary-cards">
         <div class="card income-card">
@@ -23,6 +27,42 @@
         </div>
     </div>
 
+    <!-- Charts Section -->
+    <div class="charts-container">
+        <!-- Expense by Category Pie Chart -->
+        {% if expense_categories %}
+        <div class="chart-card">
+            <h2>Expenses by Category</h2>
+            <canvas id="expenseChart"></canvas>
+        </div>
+        {% endif %}
+
+        <!-- Income by Category Pie Chart -->
+        {% if income_categories %}
+        <div class="chart-card">
+            <h2>Income by Category</h2>
+            <canvas id="incomeChart"></canvas>
+        </div>
+        {% endif %}
+
+        <!-- Daily Expenses and Income Line Chart -->
+        {% if dates %}
+        <div class="chart-card">
+            <h2>Daily Income vs Expenses (Last 30 Days)</h2>
+            <canvas id="dailyChart"></canvas>
+        </div>
+        {% endif %}
+
+        <!-- Budget vs Spent Bar Chart -->
+        {% if budget_data %}
+        <div class="chart-card">
+            <h2>Budget vs Spent (This Month)</h2>
+            <canvas id="budgetChart"></canvas>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Transactions -->
     <div class="recent-transactions">
         <h2>Recent Transactions</h2>
         {% if recent_transactions %}
@@ -53,4 +93,185 @@
         {% endif %}
     </div>
 </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Chart colors - Money theme
+    const greenColor = '#2e7d32';
+    const lightGreenColor = '#c8e6c9';
+    const redColor = '#c62828';
+    const lightRedColor = '#ffcdd2';
+    const darkGreenColor = '#1b5e20';
+
+    // Expense by Category Pie Chart
+    {% if expense_categories %}
+    const expenseCtx = document.getElementById('expenseChart');
+    if (expenseCtx) {
+        new Chart(expenseCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ expense_categories|tojson }},
+                datasets: [{
+                    data: {{ expense_amounts|tojson }},
+                    backgroundColor: [
+                        '#c62828', '#e53935', '#f44336', '#ef5350', '#e57373',
+                        '#f06292', '#ec407a', '#e91e63', '#c2185b', '#ad1457'
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+
+    // Income by Category Pie Chart
+    {% if income_categories %}
+    const incomeCtx = document.getElementById('incomeChart');
+    if (incomeCtx) {
+        new Chart(incomeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: {{ income_categories|tojson }},
+                datasets: [{
+                    data: {{ income_amounts|tojson }},
+                    backgroundColor: [
+                        '#1b5e20', '#2e7d32', '#388e3c', '#43a047', '#66bb6a',
+                        '#81c784', '#a5d6a7', '#c8e6c9', '#e8f5e9', '#b7e4c7'
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+
+    // Daily Income vs Expenses Line Chart
+    {% if dates %}
+    const dailyCtx = document.getElementById('dailyChart');
+    if (dailyCtx) {
+        new Chart(dailyCtx, {
+            type: 'line',
+            data: {
+                labels: {{ dates|tojson }},
+                datasets: [
+                    {
+                        label: 'Income',
+                        data: {{ daily_income_values|tojson }},
+                        borderColor: greenColor,
+                        backgroundColor: lightGreenColor,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 4,
+                        pointBackgroundColor: greenColor,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Expenses',
+                        data: {{ daily_expense_values|tojson }},
+                        borderColor: redColor,
+                        backgroundColor: lightRedColor,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 4,
+                        pointBackgroundColor: redColor,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        labels: { font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Amount ($)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+
+    // Budget vs Spent Bar Chart
+    {% if budget_data %}
+    const budgetCtx = document.getElementById('budgetChart');
+    if (budgetCtx) {
+        new Chart(budgetCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ budget_data|map(attribute='category')|list|tojson }},
+                datasets: [
+                    {
+                        label: 'Budget Limit',
+                        data: {{ budget_data|map(attribute='limit')|list|tojson }},
+                        backgroundColor: lightGreenColor,
+                        borderColor: greenColor,
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Amount Spent',
+                        data: {{ budget_data|map(attribute='spent')|list|tojson }},
+                        backgroundColor: lightRedColor,
+                        borderColor: redColor,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        labels: { font: { size: 12 } }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+    {% endif %}
+</script>
 {% endblock %}
