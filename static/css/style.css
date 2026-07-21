@@ -130,19 +130,6 @@ main {
     color: #c62828;
 }
 
-/* Recent Transactions */
-.recent-transactions {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.recent-transactions h2 {
-    margin-bottom: 1.5rem;
-    color: #1b5e20;
-}
-
 /* Charts Container */
 .charts-container {
     display: grid;
@@ -167,6 +154,19 @@ main {
 
 .chart-card canvas {
     max-height: 400px;
+}
+
+/* Recent Transactions */
+.recent-transactions {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.recent-transactions h2 {
+    margin-bottom: 1.5rem;
+    color: #1b5e20;
 }
 
 /* Tables */
