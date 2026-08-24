@@ -6,8 +6,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8faf8;
-    color: #1a1a1a;
+    background-color: #f5f7f5;
+    color: #111827;
     line-height: 1.6;
 }
 
@@ -17,12 +17,12 @@ body {
     padding: 0 20px;
 }
 
-/* Navbar - Money Green Theme */
+/* Navbar */
 .navbar {
-    background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+    background-color: #111827;
     color: white;
     padding: 1rem 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
     margin-bottom: 2rem;
 }
 
@@ -47,13 +47,12 @@ body {
 .nav-menu a {
     color: white;
     text-decoration: none;
-    transition: opacity 0.3s, color 0.3s;
+    transition: color 0.3s;
     font-weight: 500;
 }
 
 .nav-menu a:hover {
-    opacity: 0.9;
-    color: #c8e6c9;
+    color: #22c55e;
 }
 
 main {
@@ -63,7 +62,7 @@ main {
 /* Dashboard */
 .dashboard h1 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
     font-size: 2.5rem;
 }
 
@@ -78,18 +77,18 @@ main {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-left: 5px solid #2e7d32;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    border-left: 5px solid #22c55e;
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
-    color: #666;
+    color: #6b7280;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
@@ -99,38 +98,38 @@ main {
 .card .amount {
     font-size: 2rem;
     font-weight: bold;
-    color: #1b5e20;
+    color: #15803d;
 }
 
 .income-card {
-    border-left-color: #2e7d32;
+    border-left-color: #22c55e;
 }
 
 .income-card .amount {
-    color: #1b5e20;
+    color: #15803d;
 }
 
 .expense-card {
-    border-left-color: #c62828;
+    border-left-color: #dc2626;
 }
 
 .expense-card .amount {
-    color: #c62828;
+    color: #dc2626;
 }
 
 .balance-card {
-    border-left-color: #1b5e20;
+    border-left-color: #16a34a;
 }
 
 .balance-card .amount {
-    color: #1b5e20;
+    color: #15803d;
 }
 
 .balance-card .amount.negative {
-    color: #c62828;
+    color: #dc2626;
 }
 
-/* Charts Container */
+/* Charts */
 .charts-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -142,13 +141,13 @@ main {
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-top: 4px solid #2e7d32;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    border-top: 4px solid #22c55e;
 }
 
 .chart-card h2 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
     font-size: 1.3rem;
 }
 
@@ -161,12 +160,12 @@ main {
     background: white;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
 }
 
 .recent-transactions h2 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
 }
 
 /* Tables */
@@ -176,32 +175,32 @@ main {
 }
 
 .table thead {
-    background-color: #f1f8f6;
-    border-bottom: 3px solid #2e7d32;
+    background-color: #f0fdf4;
+    border-bottom: 3px solid #22c55e;
 }
 
 .table th {
     padding: 1rem;
     text-align: left;
     font-weight: 600;
-    color: #1b5e20;
+    color: #166534;
 }
 
 .table td {
     padding: 1rem;
-    border-bottom: 1px solid #e0f2f1;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .table tbody tr:hover {
-    background-color: #f1f8f6;
+    background-color: #f0fdf4;
 }
 
 .table tr.income {
-    color: #1b5e20;
+    color: #15803d;
 }
 
 .table tr.expense {
-    color: #c62828;
+    color: #dc2626;
 }
 
 .badge {
@@ -213,13 +212,13 @@ main {
 }
 
 .badge-income {
-    background-color: #c8e6c9;
-    color: #1b5e20;
+    background-color: #dcfce7;
+    color: #166534;
 }
 
 .badge-expense {
-    background-color: #ffcdd2;
-    color: #b71c1c;
+    background-color: #fee2e2;
+    color: #b91c1c;
 }
 
 /* Forms */
@@ -227,15 +226,15 @@ main {
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
     max-width: 600px;
     margin: 0 auto;
-    border-top: 4px solid #2e7d32;
+    border-top: 4px solid #22c55e;
 }
 
 .form-container h1 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
 }
 
 .form {
@@ -252,26 +251,26 @@ main {
 .form-group label {
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #111827;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
     padding: 0.75rem;
-    border: 2px solid #e0f2f1;
+    border: 2px solid #d1d5db;
     border-radius: 6px;
     font-size: 1rem;
     font-family: inherit;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #2e7d32;
-    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
 }
 
 .form-group textarea {
@@ -299,31 +298,31 @@ main {
 }
 
 .btn-primary {
-    background-color: #2e7d32;
+    background-color: #16a34a;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #1b5e20;
-    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.3);
+    background-color: #15803d;
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.3);
 }
 
 .btn-secondary {
-    background-color: #e0e0e0;
-    color: #333;
+    background-color: #111827;
+    color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #d0d0d0;
+    background-color: #000000;
 }
 
 .btn-danger {
-    background-color: #c62828;
+    background-color: #dc2626;
     color: white;
 }
 
 .btn-danger:hover {
-    background-color: #ad1457;
+    background-color: #b91c1c;
 }
 
 .btn-sm {
@@ -334,7 +333,7 @@ main {
 /* Transactions Page */
 .transactions-page h1 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
 }
 
 .transactions-page .btn-primary {
@@ -353,14 +352,14 @@ main {
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-top: 4px solid #2e7d32;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+    border-top: 4px solid #22c55e;
 }
 
 .budgets-form h2,
 .budgets-list h2 {
     margin-bottom: 1.5rem;
-    color: #1b5e20;
+    color: #111827;
 }
 
 .budget-items {
@@ -371,15 +370,15 @@ main {
 
 .budget-card {
     padding: 1.5rem;
-    border: 2px solid #e0f2f1;
+    border: 2px solid #dcfce7;
     border-radius: 8px;
     transition: all 0.3s;
-    background-color: #f1f8f6;
+    background-color: #f0fdf4;
 }
 
 .budget-card:hover {
-    border-color: #2e7d32;
-    box-shadow: 0 4px 8px rgba(46, 125, 50, 0.15);
+    border-color: #22c55e;
+    box-shadow: 0 4px 10px rgba(34, 197, 94, 0.15);
 }
 
 .budget-header {
@@ -391,29 +390,29 @@ main {
 
 .budget-header h3 {
     margin: 0;
-    color: #1b5e20;
+    color: #166534;
 }
 
 .budget-month {
     font-size: 0.8rem;
-    color: #666;
+    color: #6b7280;
     background-color: white;
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
-    border: 1px solid #2e7d32;
+    border: 1px solid #22c55e;
 }
 
 .budget-amount {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #2e7d32;
+    color: #15803d;
     margin-bottom: 0.5rem;
 }
 
 /* Reports Page */
 .reports-page h1 {
     margin-bottom: 2rem;
-    color: #1b5e20;
+    color: #111827;
 }
 
 /* Error Page */
@@ -424,7 +423,7 @@ main {
 
 .error-page h1 {
     font-size: 4rem;
-    color: #c62828;
+    color: #dc2626;
     margin-bottom: 1rem;
 }
 
@@ -436,13 +435,13 @@ main {
 /* No Data */
 .no-data {
     text-align: center;
-    color: #999;
+    color: #9ca3af;
     padding: 2rem;
     font-style: italic;
 }
 
 .no-data a {
-    color: #2e7d32;
+    color: #16a34a;
     text-decoration: none;
     font-weight: 600;
 }
@@ -460,23 +459,23 @@ main {
 }
 
 .alert-success {
-    background-color: #c8e6c9;
-    color: #1b5e20;
-    border-left-color: #2e7d32;
+    background-color: #dcfce7;
+    color: #166534;
+    border-left-color: #22c55e;
 }
 
 .alert-error {
-    background-color: #ffcdd2;
-    color: #b71c1c;
-    border-left-color: #c62828;
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-left-color: #dc2626;
 }
 
 /* Footer */
 .footer {
     text-align: center;
     padding: 2rem;
-    background-color: #1b5e20;
-    border-top: 4px solid #2e7d32;
+    background-color: #111827;
+    border-top: 4px solid #22c55e;
     color: white;
 }
 
